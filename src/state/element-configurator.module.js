@@ -9,7 +9,7 @@ const elementConfigurator = {
         headingLevel: 'h1'
       },
       containerElement: {
-        layoutMode: 'flex'
+        layoutMode: '1-1-1'
       }
     }
   },

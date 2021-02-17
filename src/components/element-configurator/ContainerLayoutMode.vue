@@ -36,7 +36,7 @@ export default {
 
   setup() {
     const store = useStore();
-    const selectedMode = ref("3")
+    const selectedMode = ref(store.getters.containerConfiguration.layoutMode)
     let layouts = reactive([
       { name: "one-one-one", value: '1-1-1', active: true},
       { name: "one-two", value: '1-2', active: false},
