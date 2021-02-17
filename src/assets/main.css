@@ -21,3 +21,7 @@
 h3.el-config--title {
     @apply font-bold text-gray-500;
 }
+
+.el-remover {
+    @apply absolute right-0 bg-red-600 rounded text-white text-xs p-2;
+}
