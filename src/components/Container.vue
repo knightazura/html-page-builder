@@ -10,15 +10,33 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useStore } from 'vuex'
+import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+import uuid from '@/utilities/uuid'
+import DND from '@/utilities/drag-and-drop'
 
 export default {
   setup() {
     const store = useStore()
     const showConfigurator = () => store.commit("selectElement", "container")
+    const dragged = computed(() => store.getters.dragged)
+
+    // DND listeners
+    const {
+      dragOver,
+      dragEnter,
+      dragLeave,
+      drop
+    } = DND
 
     return {
-      showConfigurator
+      showConfigurator,
+      dragged,
+      dragOver,
+      dragEnter,
+      dragLeave,
+      drop
     }
   },
 
@@ -46,18 +64,77 @@ export default {
       // Get heading configuration
       let cfg = this.$store.getters.containerConfiguration
 
-      // Event target element
+      // Event target: parent element
       let element = document.createElement('div')
+      let parentId = "container-" + uuid(6)
+      element.setAttribute("id", parentId)
 
       // Styles
-      let styles = Object
-        .keys(cfg)
-        .map(prop => cfg[prop])
-      element.classList.add(...styles)
-      element.textContent = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia asperiores qui commodi sit reiciendis numquam assumenda sunt suscipit facere, quidem consectetur blanditiis dolores aperiam exercitationem ipsa eligendi architecto incidunt ratione?'
+      element.classList.add("grid", "grid-cols-3")
+
+      // Setup sortable
+      Sortable.create(element, { animation: 150 })
+
+      // Add children
+      this
+        .buildChildElement(cfg.layoutMode)
+        .map(child => element.appendChild(child))
 
       return element
-    }
+    },
+
+    countTotalChildren(layoutMode) {
+      if (layoutMode === '3') {
+        return 1
+      } else if (layoutMode === '1-2' || layoutMode === '2-1') {
+        return 2
+      } else {
+        return 3
+      }
+    },
+
+    buildChildElement(layoutMode) {
+      // Init.
+      let children = []
+      
+      // Set total children based on selected configuration
+      let totalChildren = this.countTotalChildren(layoutMode)
+
+      // Build!
+      for(let i = 0; i < totalChildren; i++) {
+        let child = document.createElement("div")
+        let childId = "child-container-" + uuid(6)
+
+        // Style attributes
+        child.setAttribute("id", childId)
+        child.classList.add("modified-component", "drop-zone")
+        child.textContent = `Child ${i + 1}`
+        // Special class: left span || right span
+        if (
+          (totalChildren === 2 && layoutMode === '2-1' && i === 0) ||
+          (totalChildren === 2 && layoutMode === '1-2' && i === 1)
+        ) {
+          child.classList.add("col-span-2")
+        }
+        // Special class: full span
+        if (totalChildren === 1) {
+          child.classList.add("col-span-3")
+        }
+
+        // Add listeners
+        child.addEventListener("dragover", this.dragOver)
+        child.addEventListener("dragenter", this.dragEnter)
+        child.addEventListener("dragleave", this.dragLeave)
+        child.addEventListener("drop", this.drop)
+
+        // Setup sortable
+        Sortable.create(child, { animation: 150 })
+
+        children.push(child)
+      }
+
+      return children
+    },
   }
 }
 </script>
