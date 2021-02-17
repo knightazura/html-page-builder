@@ -1,10 +1,13 @@
 <template>
   <div class="mb-4">
     <h4 class="font-bold">Layout Mode</h4>
-    <div class="grid grid-cols-2 gap-4 mt-4">
+    <div class="grid xl:grid-cols-2 gap-4 mt-4">
       <div v-for="(layout, i) in layouts"
         :key="i"
-        :class="layout.active ? 'layout-mode--active' : ''"
+        :class="[
+          'layout-mode',
+          layout.active ? 'layout-mode--active' : ''
+        ]"
         @click="selectMode(i)">
         <component :is="layout.name"></component>
       </div>
