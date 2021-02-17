@@ -7,18 +7,6 @@
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect
-      x="1"
-      y="1"
-      width="142"
-      height="54"
-      rx="1"
-      stroke="#D3EAF6"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-dasharray="6 8"
-    />
-    <rect
       x="52.5"
       y="8.5"
       width="83"
