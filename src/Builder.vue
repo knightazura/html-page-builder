@@ -1,9 +1,12 @@
 <template>
+  <header class="w-full py-4 text-center border border-b border-gray-200">
+    <h1 class="font-bold text-2xl" title="HTML Page Builder - Muhammad Izzuddin Al Fikri">HTML Page Builder</h1>
+  </header>
   <div class="flex gap-x-2">
-    <aside class="w-1/4 border-r border-gray-400">
+    <aside class="w-1/4 border-r border-gray-200">
       <!-- Elements list -->
-      <div class="elements-list px-4">
-        <h3 class="text-lg font-bold">Element</h3>
+      <div class="elements-list px-4 pt-4 pb-2">
+        <h2 class="text-gray-600 text-lg font-bold">Element list</h2>
         <Heading />
         <Container />
       </div>

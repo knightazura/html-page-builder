@@ -5,7 +5,7 @@
     @dragover="dragOver"
     @dragenter="dragEnter"
     @dragleave="dragLeave"
-    @drop="drop"></div>
+    @drop="onDrop"></div>
 </template>
 
 <script>
@@ -18,13 +18,15 @@ export default {
     const {
       dragOver,
       dragEnter,
-      dragLeave
+      dragLeave,
+      drop
     } = DND
 
     return {
       dragOver,
       dragEnter,
-      dragLeave
+      dragLeave,
+      drop
     }
   },
   mounted() {
@@ -55,20 +57,11 @@ export default {
   },
 
   methods: {
-    drop(event) {
-      // prevent default action (open as link for some elements)
-      event.preventDefault();
-      // move dragged elem to the selected drop target
-      if (event.target.classList.contains("drop-zone")) {
-        // Add modified-component class
-        this.dragged.classList.add("modified-component");
-
-        // Add to dropZone
-        event.target.appendChild(this.dragged);
-
-        // Save built page
-        this.$store.commit("buildRealPage", event.target)
-      }
+    onDrop(event) {
+      this.drop(event, {
+        store: this.$store,
+        dragged: this.dragged
+      })
     },
   }
 }

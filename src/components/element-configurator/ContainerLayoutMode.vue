@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-4">
-    <h4 class="font-bold">Layout Mode</h4>
+  <div class="my-4">
+    <h3 class="el-config--title">Layout Mode</h3>
     <div class="grid xl:grid-cols-2 gap-4 mt-4">
       <div v-for="(layout, i) in layouts"
         :key="i"
@@ -12,12 +12,11 @@
         <component :is="layout.name"></component>
       </div>
     </div>
-    {{ selectedMode }}
   </div>
 </template>
 
 <script>
-import { reactive, ref, watch } from 'vue';
+import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 import OneOneOne from './Container/OneOneOne.vue'
@@ -34,9 +33,15 @@ export default {
     "full-three": FullThree
   },
 
-  setup() {
+  props: {
+    configName: {
+      type: String,
+      required: true
+    }
+  },
+
+  setup(props) {
     const store = useStore();
-    const selectedMode = ref(store.getters.containerConfiguration.layoutMode)
     let layouts = reactive([
       { name: "one-one-one", value: '1-1-1', active: true},
       { name: "one-two", value: '1-2', active: false},
@@ -44,24 +49,24 @@ export default {
       { name: "full-three", value: '3', active: false},
     ]);
 
-    watch(selectedMode, function (mode) {
-      store.commit("setContainerElement", {
-        config: "layoutMode",
-        value: mode
-      })
-    })
-
     // Methods
     const selectMode = index => {
       layouts
         .forEach((layout, x) => {
-          layout.active = (index === x) ? true : false
-          selectedMode.value = layouts[index].value
+          if (index === x) {
+            layout.active = true
+            store.commit("setContainerElement", {
+              config: props.configName,
+              value: layouts[index].value
+            })
+          } else {
+            layout.active = false
+          }
         })
     }
 
     return {
-      selectedMode,
+      selectedMode: computed(() => store.getters.containerConfiguration[props.configName]),
       selectMode,
       layouts
     }

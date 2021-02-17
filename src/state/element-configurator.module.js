@@ -4,7 +4,6 @@ const elementConfigurator = {
     activeConfiguration: {
       contentElement: {
         fontColour: 'text-black',
-        fontSize: 'text-base',
         textAlign: 'text-left',
         headingLevel: 'h1'
       },
@@ -31,33 +30,15 @@ const elementConfigurator = {
       state.selectedElement = element
     },
     // Content element configurations
-    setFontColour(state, colour) {
+    setContentElement(state, { config, value }) {
       state
         .activeConfiguration
-        .contentElement
-        .fontColour = colour
-    },
-    setFontSize(state, size) {
-      state
-        .activeConfiguration
-        .contentElement
-        .fontSize = size
-    },
-    setTextAlign(state, align) {
-      state
-        .activeConfiguration
-        .contentElement
-        .textAlign = align
-    },
-    setHeadingLevel(state, level) {
-      state
-        .activeConfiguration
-        .contentElement
-        .headingLevel = level
+        .contentElement[config] = value
     },
 
     // Container element configurations
     setContainerElement(state, { config, value }) {
+      console.log({config, value})
       state
         .activeConfiguration
         .containerElement[config] = value

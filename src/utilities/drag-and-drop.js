@@ -1,5 +1,7 @@
-import { computed } from 'vue';
-import { useStore } from 'vuex'
+const dragEnd = event => {
+  // reset the transparency
+  event.target.style.opacity = ""
+}
 
 const dragOver = event => {
   // Required to allow drop
@@ -10,7 +12,7 @@ const dragEnter = event => {
   let target = event.target;
 
   if (target.classList.contains("drop-zone")) {
-    target.classList.replace("bg-white", "bg-yellow-50");
+    target.classList.replace("bg-white", "bg-gray-50");
   }
 
   // prevent default to allow drop
@@ -21,18 +23,16 @@ const dragLeave = event => {
   let target = event.target;
 
   if (target.classList.contains("drop-zone")) {
-    target.classList.replace("bg-yellow-50", "bg-white");
+    target.classList.replace("bg-gray-50", "bg-white");
   }
 
   // prevent default to allow drop
   event.preventDefault();
 }
 
-const drop = event => {
+const drop = (event, o) => {
   // Init.
-  const store = useStore()
-  // Get dragged element
-  const dragged = computed(() => store.getters.dragged)
+  const { store, dragged } = o
 
   // prevent default action (open as link for some elements)
   event.preventDefault();
@@ -40,17 +40,20 @@ const drop = event => {
   // move dragged elem to the selected drop target
   if (event.target.classList.contains("drop-zone")) {
     // Add modified-component class
-    dragged.value.classList.add("modified-component");
+    dragged.classList.add("modified-component");
 
     // Add to dropZone
-    event.target.appendChild(dragged.value);
+    event.target.appendChild(dragged);
+
+    // Style
+    event.target.classList.replace("bg-gray-50", "bg-white");
 
     // Save built page
     store.commit("buildRealPage", event.target)
   }
 }
-
 export default {
+  dragEnd,
   dragOver,
   dragEnter,
   dragLeave,

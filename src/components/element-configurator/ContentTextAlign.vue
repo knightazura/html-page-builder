@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <h4 class="font-bold">Text Align</h4>
+    <h3 class="el-config--title">Text Align</h3>
     <select class="w-full bg-white px-4 py-2 border border-gray-500 rounded" v-model="selectedAlign">
       <option v-for="align in aligns"
         :key="align.name"
@@ -14,9 +14,16 @@ import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  setup() {
+  props: {
+    configName: {
+      type: String,
+      required: true
+    }
+  },
+
+  setup(props) {
     const store = useStore();
-    const selectedAlign = ref("text-left")
+    const selectedAlign = ref(store.getters.contentConfiguration[props.configName])
     const aligns = [
       { name: 'Left', value: 'text-left'},
       { name: 'Center', value: 'text-center'},
@@ -25,7 +32,10 @@ export default {
     ];
 
     watch(selectedAlign, function (textAlign) {
-      store.commit("setTextAlign", textAlign)
+       store.commit("setContentElement", {
+        config: props.configName,
+        value: textAlign
+      })
     })
 
     return {

@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-4">
-    <h4 class="font-bold">Level</h4>
+  <div class="my-4">
+    <h3 class="el-config--title">Level</h3>
     <select class="w-full bg-white px-4 py-2 border border-gray-500 rounded" v-model="selectedLevel">
       <option v-for="level in levels"
         :key="level.name"
@@ -14,9 +14,16 @@ import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  setup() {
+  props: {
+    configName: {
+      type: String,
+      required: true
+    }
+  },
+
+  setup(props) {
     const store = useStore();
-    const selectedLevel = ref("h1")
+    const selectedLevel = ref(store.getters.contentConfiguration[props.configName])
 
     let levels = []
     for (let x = 1; x <= 6; x++) {
@@ -24,7 +31,10 @@ export default {
     }
 
     watch(selectedLevel, function (level) {
-      store.commit("setHeadingLevel", level)
+      store.commit("setContentElement", {
+        config: props.configName,
+        value: level
+      })
     })
 
     return {

@@ -4,6 +4,7 @@
     draggable="true"
     @dragstart="dragStart"
     @dragend="dragEnd"
+    @drop="onDrop"
     @click="showConfigurator">
     Container
   </div>
@@ -15,6 +16,7 @@ import { useStore } from 'vuex'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
 import uuid from '@/utilities/uuid'
 import DND from '@/utilities/drag-and-drop'
+import buildRemoveButton from '@/utilities/element-remover'
 
 export default {
   setup() {
@@ -27,6 +29,7 @@ export default {
       dragOver,
       dragEnter,
       dragLeave,
+      dragEnd,
       drop
     } = DND
 
@@ -36,7 +39,9 @@ export default {
       dragOver,
       dragEnter,
       dragLeave,
-      drop
+      dragEnd,
+      drop,
+      buildRemoveButton
     }
   },
 
@@ -55,9 +60,11 @@ export default {
       event.target.style.opacity = .5
     },
 
-    dragEnd(event) {
-      // reset the transparency
-      event.target.style.opacity = ""
+    onDrop(event) {
+      this.drop(event, {
+        store: this.$store,
+        dragged: this.dragged
+      })
     },
 
     buildElement() {
@@ -70,7 +77,7 @@ export default {
       element.setAttribute("id", parentId)
 
       // Styles
-      element.classList.add("grid", "grid-cols-3")
+      element.classList.add("grid", "grid-cols-3", "relative")
 
       // Setup sortable
       Sortable.create(element, { animation: 150 })
@@ -79,6 +86,9 @@ export default {
       this
         .buildChildElement(cfg.layoutMode)
         .map(child => element.appendChild(child))
+
+      // Add remove button
+      element.appendChild(this.buildRemoveButton(element))
 
       return element
     },
@@ -125,7 +135,7 @@ export default {
         child.addEventListener("dragover", this.dragOver)
         child.addEventListener("dragenter", this.dragEnter)
         child.addEventListener("dragleave", this.dragLeave)
-        child.addEventListener("drop", this.drop)
+        child.addEventListener("drop", this.onDrop)
 
         // Setup sortable
         Sortable.create(child, { animation: 150 })
@@ -134,7 +144,7 @@ export default {
       }
 
       return children
-    },
+    }
   }
 }
 </script>

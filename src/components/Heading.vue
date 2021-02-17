@@ -11,6 +11,7 @@
 
 <script>
 import { useStore } from 'vuex'
+import buildRemoveButton from '@/utilities/element-remover'
 
 export default {
   setup() {
@@ -18,7 +19,8 @@ export default {
     const showConfigurator = () => store.commit("selectElement", "heading")
 
     return {
-      showConfigurator
+      showConfigurator,
+      buildRemoveButton
     }
   },
 
@@ -45,7 +47,6 @@ export default {
     buildElement() {
       // Get heading configuration
       let cfg = this.$store.getters.contentConfiguration
-      console.log(cfg.headingLevel)
 
       // Event target element
       let element = document.createElement(cfg.headingLevel)
@@ -76,7 +77,11 @@ export default {
           }
         })
       element.classList.add(...styles)
+      element.classList.add("relative")
       element.textContent = `Heading ${cfg.headingLevel}`
+
+      // Add remove button
+      element.appendChild(this.buildRemoveButton(element))
 
       return element
     }

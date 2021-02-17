@@ -1,8 +1,10 @@
 <template>
-  <div class="p-4 mt-4 border-t border-gray-300">
-    <div class="flex flex-col">
-      <component v-for="(component, i) in activeComponent" :is="component" :key="i"></component>
+  <div class="p-4 mt-4 border-t border-gray-200">
+    <h2 class="w-full text-center text-gray-600 text-lg font-bold">Element Configuration</h2>
+    <div v-if="activeComponent.length > 0" class="flex flex-col">
+      <component v-for="(component, i) in activeComponent" :is="component.name" :configName="component.configName" :key="i"></component>
     </div>
+    <div class="mt-4 py-8 bg-gray-100 text-center text-gray-400 italic" v-else>Select an element first</div>
   </div>
 </template>
 
@@ -12,7 +14,6 @@ import { useStore } from 'vuex'
 
 // Content element components
 import ContentFontColor from './ContentFontColor.vue'
-import ContentFontSize from './ContentFontSize.vue'
 import ContentTextAlign from './ContentTextAlign.vue'
 import ContentHeadingLevel from './ContentHeadingLevel.vue'
 
@@ -23,7 +24,6 @@ export default {
   components: {
     // Content element components
     "content-font-color": ContentFontColor,
-    "content-font-size": ContentFontSize,
     "content-text-align": ContentTextAlign,
     "content-heading-level": ContentHeadingLevel,
 
@@ -37,13 +37,14 @@ export default {
       let result = []
       switch (store.getters.selectedElement) {
         case 'heading':
-          result = ["content-heading-level", "content-font-color", "content-text-align"]
-          break;
-        case 'text':
-          result = ["content-font-color", "content-font-size"]
+          result = [
+            {name: "content-heading-level", configName: "headingLevel"},
+            {name: "content-font-color", configName: "fontColour"},
+            {name: "content-text-align", configName: "textAlign"}
+          ]
           break;
         case 'container':
-          result = ["container-layout-mode"]
+          result = [{ name: "container-layout-mode", configName: "layoutMode"}]
           break;
       }
 
