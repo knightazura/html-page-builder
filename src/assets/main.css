@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.modified-component {
+    @apply px-2 py-1 m-3 border border-dashed border-blue-200;
+}
+
+.layout-mode--active {
+    @apply bg-green-100 border border-green-400 rounded;
+}

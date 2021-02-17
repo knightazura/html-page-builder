@@ -1,0 +1,49 @@
+<template>
+  <svg
+    width="144"
+    height="56"
+    viewBox="0 0 144 56"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="1"
+      y="1"
+      width="142"
+      height="54"
+      rx="1"
+      stroke="#D3EAF6"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-dasharray="6 8"
+    />
+    <rect
+      x="8.5"
+      y="8.5"
+      width="39"
+      height="39"
+      rx="1.5"
+      fill="#D3EAF6"
+      stroke="#8CBCD6"
+    />
+    <rect
+      x="52.5"
+      y="8.5"
+      width="39"
+      height="39"
+      rx="1.5"
+      fill="#D3EAF6"
+      stroke="#8CBCD6"
+    />
+    <rect
+      x="96.5"
+      y="8.5"
+      width="39"
+      height="39"
+      rx="1.5"
+      fill="#D3EAF6"
+      stroke="#8CBCD6"
+    />
+  </svg>
+</template>
