@@ -10,8 +10,23 @@
 
 <script>
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+import DND from '@/utilities/drag-and-drop'
 
 export default {
+  setup() {
+    // DND listeners
+    const {
+      dragOver,
+      dragEnter,
+      dragLeave
+    } = DND
+
+    return {
+      dragOver,
+      dragEnter,
+      dragLeave
+    }
+  },
   mounted() {
     // Sortable
     Sortable.create(document.getElementById("main-drop-zone"), {
@@ -40,33 +55,6 @@ export default {
   },
 
   methods: {
-    dragOver(event) {
-      // Required to allow drop
-      event.preventDefault()
-    },
-
-    dragEnter(event) {
-      let target = event.target;
-
-      if (target.classList.contains("drop-zone")) {
-        target.classList.replace("bg-white", "bg-yellow-50");
-      }
-
-      // prevent default to allow drop
-      event.preventDefault();
-    },
-
-    dragLeave(event) {
-      let target = event.target;
-
-      if (target.classList.contains("drop-zone")) {
-        target.classList.replace("bg-yellow-50", "bg-white");
-      }
-
-      // prevent default to allow drop
-      event.preventDefault();
-    },
-
     drop(event) {
       // prevent default action (open as link for some elements)
       event.preventDefault();
