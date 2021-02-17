@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import build from '@/utilities/page-builder'
+
 // Element components
 import Heading from './components/Heading.vue'
 import Container from './components/Container.vue'
@@ -41,12 +43,18 @@ export default {
   },
 
   mounted() {
-    // Build HTML document for real page
-    this.$store.commit("initialBuildRealPage");
+    let pm = this.$store.getters.pageModified
+    if (pm) {
+      const mdz = document.getElementById("main-drop-zone")
+      mdz.appendChild(pm)
+    }
   },
 
   methods: {
     preview() {
+      // Built page
+      build(this.$store)
+      // Navigate to preview page
       this.$router.push('/preview')
     }
   }

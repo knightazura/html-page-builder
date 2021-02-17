@@ -117,7 +117,7 @@ export default {
 
         // Style attributes
         child.setAttribute("id", childId)
-        child.classList.add("modified-component", "drop-zone")
+        child.classList.add("modified-component", "modified-component--marker", "drop-zone")
         child.textContent = `Child ${i + 1}`
         // Special class: left span || right span
         if (

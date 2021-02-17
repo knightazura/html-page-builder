@@ -37,17 +37,6 @@ export default {
         evt.item.setAttribute("draggable", "true");
       },
     })
-
-    let dropZone = document.querySelector(".drop-zone")
-    let pb = this.$store.getters.pageBuilt;
-
-    if (pb) {
-      let cd = Array.from(pb.children);
-  
-      for (const c of cd) {
-        dropZone.appendChild(c);
-      }
-    }
   },
 
   computed: {

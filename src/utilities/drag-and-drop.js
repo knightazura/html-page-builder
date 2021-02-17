@@ -1,3 +1,5 @@
+import build from './page-builder'
+
 const dragEnd = event => {
   // reset the transparency
   event.target.style.opacity = ""
@@ -40,7 +42,7 @@ const drop = (event, o) => {
   // move dragged elem to the selected drop target
   if (event.target.classList.contains("drop-zone")) {
     // Add modified-component class
-    dragged.classList.add("modified-component");
+    dragged.classList.add("modified-component", "modified-component--marker");
 
     // Add to dropZone
     event.target.appendChild(dragged);
@@ -48,10 +50,14 @@ const drop = (event, o) => {
     // Style
     event.target.classList.replace("bg-gray-50", "bg-white");
 
-    // Save built page
-    store.commit("buildRealPage", event.target)
+    // Built page
+    const mainDropZone = build(store)
+    
+    // Save modified page
+    store.commit("saveModifiedPage", mainDropZone)
   }
 }
+
 export default {
   dragEnd,
   dragOver,

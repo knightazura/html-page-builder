@@ -1,6 +1,6 @@
 const buildRemoveButton = (parentElement) => {
   let button = document.createElement("button")
-  let classes = "absolute right-0 bg-red-600 rounded text-white text-xs p-2"
+  let classes = "el-remover absolute right-0 bg-red-600 rounded text-white text-xs p-2"
 
   button.classList.add(...classes.split(" "))
   button.innerHTML = `

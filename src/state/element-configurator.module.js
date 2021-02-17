@@ -38,7 +38,6 @@ const elementConfigurator = {
 
     // Container element configurations
     setContainerElement(state, { config, value }) {
-      console.log({config, value})
       state
         .activeConfiguration
         .containerElement[config] = value

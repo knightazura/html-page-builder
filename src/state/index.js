@@ -9,6 +9,7 @@ const store = createStore({
   state () {
     return {
       pageBuilt: null,
+      pageModified: null,
       dragged: null
     }
   },
@@ -19,6 +20,9 @@ const store = createStore({
     },
     pageBuilt (state) {
       return state.pageBuilt
+    },
+    pageModified (state) {
+      return state.pageModified
     }
   },
 
@@ -30,10 +34,14 @@ const store = createStore({
       state.pageBuilt = container
     },
     setDraggedElement (state, element) {
+      console.log({element})
       state.dragged = element
     },
     buildRealPage(state, builtPage) {
       state.pageBuilt = builtPage
+    },
+    saveModifiedPage(state, page) {
+      state.pageModified = page
     }
   }
 })

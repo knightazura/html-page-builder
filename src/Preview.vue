@@ -1,23 +1,23 @@
 <template>
-  <div class="preview-wrapper"></div>
-  <h1>Hey hey hey</h1>
-  <button @click="back">Back</button>
+  <div class="flex flex-col">
+    <div class="py-4 border border-b border-gray-200">
+      <button class="bg-green-600 text-white px-4 py-2 rounded ml-4" @click="back">Back</button>
+    </div>
+    <div class="preview-wrapper"></div>
+  </div>
 </template>
 
 <script>
 export default {
   mounted() {
     let previewWrapper = document.querySelector(".preview-wrapper")
-
-    console.log(this.$store.getters.pageBuilt)
-    previewWrapper.appendChild(this.$store.getters.pageBuilt);
+    previewWrapper.replaceWith(this.$store.getters.pageBuilt);
   },
 
   methods: {
     back() {
-      let previewWrapper = document.querySelector(".preview-wrapper")
-      previewWrapper.innerHTML = null
-
+      // Reset dragged element
+      this.$store.commit("setDraggedElement", null)
       this.$router.push('/')
     }
   }

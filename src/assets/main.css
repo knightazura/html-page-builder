@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .modified-component {
-    @apply px-2 py-1 m-3 border border-dashed border-blue-200;
+    @apply px-2 py-1 m-3;
+}
+
+.modified-component--marker {
+    @apply border border-dashed border-blue-200;
 }
 
 .layout-mode {
