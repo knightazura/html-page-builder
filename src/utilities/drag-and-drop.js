@@ -1,67 +1,105 @@
+"use strict";
+
 import build from './page-builder'
+import store from '../state'
 
-const dragEnd = event => {
-  // reset the transparency
-  event.target.style.opacity = ""
+class DS {
+  pow() {
+    console.log("Pow pow")
+  }
 }
 
-const dragOver = event => {
-  // Required to allow drop
-  event.preventDefault()
-}
+class DragAndDrop {
+  _BG_WHITE = "bg-white"
+  _BG_GRAY  = "bg-gray-50"
 
-const dragEnter = event => {
-  let target = event.target;
-
-  if (target.classList.contains("drop-zone")) {
-    target.classList.replace("bg-white", "bg-gray-50");
+  constructor() {
+    this.store = store
   }
 
-  // prevent default to allow drop
-  event.preventDefault();
-}
-
-const dragLeave = event => {
-  let target = event.target;
-
-  if (target.classList.contains("drop-zone")) {
-    target.classList.replace("bg-gray-50", "bg-white");
+  // Getters
+  get dragged() {
+    return this.store.getters.dragged
   }
 
-  // prevent default to allow drop
-  event.preventDefault();
-}
+  // Methods
+  _isDropZone(target) {
+    return target.classList.contains("drop-zone")
+  }
 
-const drop = (event, o) => {
-  // Init.
-  const { store, dragged } = o
+  _toggleBackground(target, eventName) {
+    let options = {
+      enter: {
+        from: this._BG_WHITE,
+        to: this._BG_GRAY
+      },
+      leave: {
+        from: this._BG_GRAY,
+        to: this._BG_WHITE
+      }
+    }
 
-  // prevent default action (open as link for some elements)
-  event.preventDefault();
+    if (this._isDropZone(target))
+      target.classList.replace(
+        options[eventName].from, 
+        options[eventName].to
+      )
+  }
+
+  dragStart() {
+    const ds = new DS()
+    ds.pow()
+  }
+
+  dragEnd(event) {
+    // reset the transparency
+    event.target.style.opacity = ""
+  }
+
+  dragOver(event) {
+    // Required to allow drop
+    event.preventDefault()
+  }
+
+  dragEnter(event) {
+    this._toggleBackground(event.target, "enter")
+
+    // Required to allow drop
+    event.preventDefault()
+  }
+
+  dragLeave(event) {
+    this._toggleBackground(event.target, "leave")
   
-  // move dragged elem to the selected drop target
-  if (event.target.classList.contains("drop-zone")) {
-    // Add modified-component class
-    dragged.classList.add("modified-component", "modified-component--marker");
+    // prevent default to allow drop
+    event.preventDefault()
+  }
 
-    // Add to dropZone
-    event.target.appendChild(dragged);
+  drop(event) {
+    // Init.
+    const dragged = this.store.getters.dragged
 
-    // Style
-    event.target.classList.replace("bg-gray-50", "bg-white");
-
-    // Built page
-    const mainDropZone = build(store)
+    // prevent default action (open as link for some elements)
+    event.preventDefault()
     
-    // Save modified page
-    store.commit("saveModifiedPage", mainDropZone)
+    // move dragged elem to the selected drop target
+    if (this._isDropZone(event.target)) {
+      // Add modified-component class
+      dragged.classList.add("modified-component", "modified-component--marker")
+
+      // Add to dropZone
+      event.target.appendChild(dragged)
+
+      // Style
+      this._toggleBackground(event.target, "leave")
+
+      // Built page
+      const mainDropZone = build(store)
+      
+      // Save modified page
+      this.store.commit("saveModifiedPage", mainDropZone)
+    }
   }
 }
 
-export default {
-  dragEnd,
-  dragOver,
-  dragEnter,
-  dragLeave,
-  drop
-}
+export default DragAndDrop
