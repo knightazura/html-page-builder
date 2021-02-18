@@ -34,7 +34,6 @@ const store = createStore({
       state.pageBuilt = container
     },
     setDraggedElement (state, element) {
-      console.log({element})
       state.dragged = element
     },
     buildRealPage(state, builtPage) {
