@@ -3,8 +3,11 @@
     class="text-2xl font-bold text-purple-800 px-8 py-4 bg-purple-100 rounded"
     draggable="true"
     @dragstart="dragStart"
+    @dragover="dragOver"
+    @dragenter="dragEnter"
+    @dragleave="dragLeave"
     @dragend="dragEnd"
-    @drop="onDrop"
+    @drop="drop"
     @click="showConfigurator">
     Container
   </div>
@@ -14,6 +17,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+
 import uuid from '@/utilities/uuid'
 import DND from '@/utilities/drag-and-drop'
 import buildRemoveButton from '@/utilities/element-remover'
@@ -22,26 +26,21 @@ export default {
   setup() {
     const store = useStore()
     const showConfigurator = () => store.commit("selectElement", "container")
-    const dragged = computed(() => store.getters.dragged)
 
     // DND listeners
-    const {
-      dragOver,
-      dragEnter,
-      dragLeave,
-      dragEnd,
-      drop
-    } = DND
+    const dragAndDrop = new DND()
+
+    dragAndDrop.dragStart()
 
     return {
       showConfigurator,
-      dragged,
-      dragOver,
-      dragEnter,
-      dragLeave,
-      dragEnd,
-      drop,
-      buildRemoveButton
+      buildRemoveButton,
+      dragged: computed(() => dragAndDrop.dragged),
+      dragOver: evt => dragAndDrop.dragOver(evt),
+      dragEnter: evt => dragAndDrop.dragEnter(evt),
+      dragLeave: evt => dragAndDrop.dragLeave(evt),
+      dragEnd: evt => dragAndDrop.dragEnd(evt),
+      drop: evt => dragAndDrop.drop(evt),
     }
   },
 
@@ -58,13 +57,6 @@ export default {
 
       // make it half transparent
       event.target.style.opacity = .5
-    },
-
-    onDrop(event) {
-      this.drop(event, {
-        store: this.$store,
-        dragged: this.dragged
-      })
     },
 
     buildElement() {
@@ -135,7 +127,7 @@ export default {
         child.addEventListener("dragover", this.dragOver)
         child.addEventListener("dragenter", this.dragEnter)
         child.addEventListener("dragleave", this.dragLeave)
-        child.addEventListener("drop", this.onDrop)
+        child.addEventListener("drop", this.drop)
 
         // Setup sortable
         Sortable.create(child, { animation: 150 })

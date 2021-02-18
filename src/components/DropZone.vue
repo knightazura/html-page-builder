@@ -5,7 +5,8 @@
     @dragover="dragOver"
     @dragenter="dragEnter"
     @dragleave="dragLeave"
-    @drop="onDrop"></div>
+    @dragend="dragEnd"
+    @drop="drop"></div>
 </template>
 
 <script>
@@ -14,21 +15,17 @@ import DND from '@/utilities/drag-and-drop'
 
 export default {
   setup() {
-    // DND listeners
-    const {
-      dragOver,
-      dragEnter,
-      dragLeave,
-      drop
-    } = DND
+    const dragAndDrop = new DND()
 
     return {
-      dragOver,
-      dragEnter,
-      dragLeave,
-      drop
+      dragOver: evt => dragAndDrop.dragOver(evt),
+      dragEnter: evt => dragAndDrop.dragEnter(evt),
+      dragLeave: evt => dragAndDrop.dragLeave(evt),
+      dragEnd: evt => dragAndDrop.dragEnd(evt),
+      drop: evt => dragAndDrop.drop(evt)
     }
   },
+
   mounted() {
     // Sortable
     Sortable.create(document.getElementById("main-drop-zone"), {
@@ -37,21 +34,6 @@ export default {
         evt.item.setAttribute("draggable", "true");
       },
     })
-  },
-
-  computed: {
-    dragged() {
-      return this.$store.getters.dragged
-    }
-  },
-
-  methods: {
-    onDrop(event) {
-      this.drop(event, {
-        store: this.$store,
-        dragged: this.dragged
-      })
-    },
   }
 }
 </script>
