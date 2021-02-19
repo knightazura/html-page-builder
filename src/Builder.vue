@@ -23,11 +23,9 @@
 </template>
 
 <script>
-import build from '@/utilities/page-builder'
+import { defineAsyncComponent } from 'vue'
 
-// Element components
-import Heading from './components/content/Heading.vue'
-import Division from './components/container/Division.vue'
+import build from '@/utilities/page-builder'
 
 import ElementConfigurator from './components/element-configurator/ElementConfigurator.vue'
 import DropZone from './components/DropZone.vue'
@@ -37,15 +35,15 @@ export default {
   components: {
     ElementConfigurator,
     DropZone,
-    Heading,
-    Division,
+    "heading": defineAsyncComponent(() => import('./components/content/Heading.vue')),
+    "division": defineAsyncComponent(() => import('./components/container/Division.vue')),
   },
 
   data() {
     return {
       listElement: [
-        Heading,
-        Division,
+        "heading",
+        "division",
       ]
     }
   },
