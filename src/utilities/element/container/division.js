@@ -19,6 +19,10 @@ class Division extends BaseElement {
     return this.elementType
   }
 
+  get name() {
+    return "division"
+  }
+
   // Methods
   build() {
     // Create element

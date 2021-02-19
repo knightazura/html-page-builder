@@ -19,10 +19,10 @@
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 
-import OneOneOne from './Container/OneOneOne.vue'
-import OneTwo from './Container/OneTwo.vue'
-import TwoOne from './Container/TwoOne.vue'
-import FullThree from './Container/FullThree.vue'
+import OneOneOne from './layout-icons/OneOneOne.vue'
+import OneTwo from './layout-icons/OneTwo.vue'
+import TwoOne from './layout-icons/TwoOne.vue'
+import FullThree from './layout-icons/FullThree.vue'
 
 
 export default {
