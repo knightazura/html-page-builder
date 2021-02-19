@@ -1,20 +1,21 @@
 "use strict";
 
-import build from './page-builder'
+import PageBuilder from './page-builder'
+import ElementBuilder from './element/builder'
 import store from '../state'
-
-class DS {
-  pow() {
-    console.log("Pow pow")
-  }
-}
 
 class DragAndDrop {
   _BG_WHITE = "bg-white"
   _BG_GRAY  = "bg-gray-50"
 
-  constructor() {
+  constructor(elementObject = null) {
     this.store = store
+
+    // Not main drop zone
+    if (elementObject) {
+      this.elementObject = new elementObject()
+      this.elementBuilder = new ElementBuilder(elementObject)
+    }
   }
 
   // Getters
@@ -46,9 +47,18 @@ class DragAndDrop {
       )
   }
 
-  dragStart() {
-    const ds = new DS()
-    ds.pow()
+  dragStart(event) {
+    // Show configurator
+    this.store.commit("selectElement", this.elementObject.type)
+
+    // Build the element
+    const newElement = this.elementBuilder.build()
+
+    // Store new element to dragged item
+    this.store.commit("setDraggedElement", newElement)
+
+    // make dragged element half transparent
+    event.target.style.opacity = .5
   }
 
   dragEnd(event) {
@@ -94,7 +104,7 @@ class DragAndDrop {
       this._toggleBackground(event.target, "leave")
 
       // Built page
-      const mainDropZone = build(store)
+      const mainDropZone = PageBuilder(store)
       
       // Save modified page
       this.store.commit("saveModifiedPage", mainDropZone)

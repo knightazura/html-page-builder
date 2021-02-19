@@ -11,18 +11,18 @@
 
 <script>
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
-import DND from '@/utilities/drag-and-drop'
+import DragAndDrop from '@/utilities/drag-and-drop'
 
 export default {
   setup() {
-    const dragAndDrop = new DND()
+    const dnd = new DragAndDrop()
 
     return {
-      dragOver: evt => dragAndDrop.dragOver(evt),
-      dragEnter: evt => dragAndDrop.dragEnter(evt),
-      dragLeave: evt => dragAndDrop.dragLeave(evt),
-      dragEnd: evt => dragAndDrop.dragEnd(evt),
-      drop: evt => dragAndDrop.drop(evt)
+      dragOver: evt => dnd.dragOver(evt),
+      dragEnter: evt => dnd.dragEnter(evt),
+      dragLeave: evt => dnd.dragLeave(evt),
+      dragEnd: evt => dnd.dragEnd(evt),
+      drop: evt => dnd.drop(evt)
     }
   },
 

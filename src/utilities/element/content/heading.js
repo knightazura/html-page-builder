@@ -1,6 +1,5 @@
 "use strict"
 
-import store from '../../../state'
 import BaseElement from '../base'
 
 class Heading extends BaseElement {
@@ -12,16 +11,22 @@ class Heading extends BaseElement {
     h5: "text-lg",
     h6: "text-base",
   }
+  // This configuration properties from element-configurator.module
+  _CONFIG_PROPS = ["fontColour", "textAlign", "headingLevel"]
 
   constructor() {
-    super()
+    super("content")
     this.configuration = this.elementConfig
+  }
+
+  get type() {
+    return this.elementType
   }
 
   // Methods
   build() {
     // Create parent element
-    let heading = document.createElement(config.headingLevel)
+    let heading = document.createElement(this.configuration.headingLevel)
 
     // Styles
     this._paintStyle(heading)
@@ -30,7 +35,7 @@ class Heading extends BaseElement {
     this._fillText(heading, `Heading ${this.configuration.headingLevel}`)
 
     // Add remove button
-    // heading.appendChild()
+    heading.appendChild(this.removeButton(heading))
 
     return heading
   }
@@ -39,12 +44,16 @@ class Heading extends BaseElement {
     let config = this.configuration
 
     // Styles
-    let styles = this._CLASSES_MAP
+    let styles = Object
       .keys(config)
       .map(prop => {
-        if (prop === "headingLevel") {
-          return this._CLASSES_MAP[config.headingLevel]
-        } else if (prop !== "fontSize") {
+        if (this._CONFIG_PROPS.includes(prop)) {
+          
+          // Heading level
+          if (prop === "headingLevel") {
+            return this._CLASSES_MAP[config.headingLevel]
+          }
+
           return config[prop]
         } else {
           return
@@ -53,10 +62,11 @@ class Heading extends BaseElement {
     
     heading.classList.add(...styles)
     heading.classList.add("relative")
+    heading.classList.remove("undefined")
   }
 
   _fillText(heading, text) {
-    heading.textContet = text
+    heading.innerText = text
   }
 }
 
