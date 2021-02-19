@@ -1,9 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-// Local instance
-import ElementBuilder from './utilities/element/builder'
-
 // Miscellaneous
 import './assets/main.css'
 import store from './state'
@@ -11,7 +8,8 @@ import store from './state'
 // Components
 import App from './App.vue'
 import Builder from './Builder.vue'
-import Preview from './Preview.vue'
+// Async imported
+const Preview = () => import('./Preview.vue')
 
 const routes = [
   { path: '/', component: Builder },
@@ -24,9 +22,6 @@ const router = createRouter({
 })
 
 const app = createApp(App)
-
-// Global vars using provide/inject
-app.config.globalProperties.$elBuilder = element => new ElementBuilder(element)
 
 // State management
 app.use(store)

@@ -2,57 +2,50 @@
   <div class="p-4 mt-4 border-t border-gray-200">
     <h2 class="w-full text-center text-gray-600 text-lg font-bold">Element Configuration</h2>
     <div v-if="activeComponent.length > 0" class="flex flex-col">
-      <component v-for="(component, i) in activeComponent"
-        :key="i"
-        :is="component.name"
-        :configName="component.configName">
-      </component>
+      <keep-alive>
+        <component v-for="(component, i) in activeComponent"
+          :key="i"
+          :is="component.name"
+          :configName="component.configName">
+        </component>
+      </keep-alive>
     </div>
     <div class="mt-4 py-8 bg-gray-100 text-center text-gray-400 italic" v-else>Select an element first</div>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
-
-// Content element components
-import ContentFontColour from './Content/FontColour.vue'
-import ContentTextAlign from './Content/TextAlign.vue'
-import ContentHeadingLevel from './Content/HeadingLevel.vue'
-
-// Container element components
-import ContainerLayoutMode from './Container/LayoutMode.vue'
 
 export default {
   components: {
     // Content element components
-    "content-font-colour": ContentFontColour,
-    "content-text-align": ContentTextAlign,
-    "content-heading-level": ContentHeadingLevel,
+    "font-colour": defineAsyncComponent(() => import('./Content/FontColour.vue')),
+    "text-align": defineAsyncComponent(() => import('./Content/TextAlign.vue')),
+    "heading-level": defineAsyncComponent(() => import('./Content/HeadingLevel.vue')),
 
     // Container element components
-    "container-layout-mode": ContainerLayoutMode,
+    "layout-mode": defineAsyncComponent(() => import('./Container/LayoutMode.vue')),
   },
 
   setup() {
     const store = useStore()
+    const elementConfigs = {
+      heading: [
+        { name: "heading-level", configName: "headingLevel" },
+        { name: "font-colour", configName: "fontColour" },
+        { name: "text-align", configName: "textAlign" },
+      ],
+      division: [
+        { name: "layout-mode", configName: "layoutMode"},
+      ],
+    }
     const activeComponent = computed(() => {
-      let result = []
-      switch (store.getters.selectedElement) {
-        case 'heading':
-          result = [
-            {name: "content-heading-level", configName: "headingLevel"},
-            {name: "content-font-colour", configName: "fontColour"},
-            {name: "content-text-align", configName: "textAlign"}
-          ]
-          break;
-        case 'division':
-          result = [{ name: "container-layout-mode", configName: "layoutMode"}]
-          break;
-      }
-
-      return result;
+      if(store.getters.selectedElement)
+        return elementConfigs[store.getters.selectedElement]
+      
+      return []
     })
 
     return {
