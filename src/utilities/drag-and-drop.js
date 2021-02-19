@@ -49,7 +49,7 @@ class DragAndDrop {
 
   dragStart(event) {
     // Show configurator
-    this.store.commit("selectElement", this.elementObject.type)
+    this.store.commit("selectElement", this.elementObject.name)
 
     // Build the element
     const newElement = this.elementBuilder.build()

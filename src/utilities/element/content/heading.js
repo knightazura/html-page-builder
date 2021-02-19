@@ -23,6 +23,10 @@ class Heading extends BaseElement {
     return this.elementType
   }
 
+  get name() {
+    return "heading"
+  }
+
   // Methods
   build() {
     // Create parent element

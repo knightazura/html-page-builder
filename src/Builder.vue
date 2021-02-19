@@ -7,8 +7,7 @@
       <!-- Elements list -->
       <div class="elements-list px-4 pt-4 pb-2">
         <h2 class="text-gray-600 text-lg font-bold">Element list</h2>
-        <Heading />
-        <Container />
+        <component v-for="(el, i) in listElement" :key="i" :is="el"></component>
       </div>
 
       <!-- Element's configurator -->
@@ -27,8 +26,8 @@
 import build from '@/utilities/page-builder'
 
 // Element components
-import Heading from './components/Heading.vue'
-import Container from './components/Container.vue'
+import Heading from './components/content/Heading.vue'
+import Division from './components/container/Division.vue'
 
 import ElementConfigurator from './components/element-configurator/ElementConfigurator.vue'
 import DropZone from './components/DropZone.vue'
@@ -36,10 +35,19 @@ import DropZone from './components/DropZone.vue'
 export default {
   name: 'App',
   components: {
-    Heading,
-    Container,
     ElementConfigurator,
-    DropZone
+    DropZone,
+    Heading,
+    Division,
+  },
+
+  data() {
+    return {
+      listElement: [
+        Heading,
+        Division,
+      ]
+    }
   },
 
   mounted() {
