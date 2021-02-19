@@ -10,80 +10,16 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import buildRemoveButton from '@/utilities/element-remover'
+import HeadingElement from '@/utilities/element/content/heading'
+import DragAndDrop from '@/utilities/drag-and-drop'
 
 export default {
   setup() {
-    const store = useStore()
-    const showConfigurator = () => store.commit("selectElement", "heading")
+    const dnd = new DragAndDrop(HeadingElement)
 
     return {
-      showConfigurator,
-      buildRemoveButton
-    }
-  },
-
-  methods: {
-    dragStart(event) {
-      // Show configurator
-      this.showConfigurator()
-
-      // Duplicate element
-      let copiedElement = this.buildElement()
-
-      // Store dragged element
-      this.$store.commit('setDraggedElement', copiedElement)
-
-      // make it half transparent
-      event.target.style.opacity = .5
-    },
-
-    dragEnd(event) {
-      // reset the transparency
-      event.target.style.opacity = ""
-    },
-
-    buildElement() {
-      // Get heading configuration
-      let cfg = this.$store.getters.contentConfiguration
-
-      // Event target element
-      let element = document.createElement(cfg.headingLevel)
-
-      // Styles
-      let styles = Object
-        .keys(cfg)
-        .map(prop => {
-          if (prop === "headingLevel") {
-            switch (cfg[prop]) {
-              case "h2":
-                return "text-3xl"
-              case "h3":
-                return "text-2xl"
-              case "h4":
-                return "text-xl"
-              case "h5":
-                return "text-lg"
-              case "h6":
-                return "text-base"
-              default:
-                return "text-4xl"
-            }
-          } else if (prop !== "fontSize") {
-            return cfg[prop]
-          } else {
-            return
-          }
-        })
-      element.classList.add(...styles)
-      element.classList.add("relative")
-      element.textContent = `Heading ${cfg.headingLevel}`
-
-      // Add remove button
-      element.appendChild(this.buildRemoveButton(element))
-
-      return element
+      dragStart: evt => dnd.dragStart(evt),
+      dragEnd: evt => dnd.dragEnd(evt)
     }
   }
 }

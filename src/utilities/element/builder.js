@@ -1,6 +1,6 @@
 class ElementBuilder {
   constructor(element) {
-    this.element = element
+    this.element = new element()
   }
 
   build() {
