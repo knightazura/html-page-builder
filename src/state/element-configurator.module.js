@@ -5,7 +5,14 @@ const elementConfigurator = {
       contentElement: {
         fontColour: 'text-black',
         textAlign: 'text-left',
-        headingLevel: 'h1'
+        headingLevel: 'h1',
+        // for Image
+        circle: false,
+        source: null,
+        // generic
+        borderWeight: 'border',
+        borderType: 'solid',
+        borderRadius: 'rounded',
       },
       containerElement: {
         layoutMode: '1-1-1'

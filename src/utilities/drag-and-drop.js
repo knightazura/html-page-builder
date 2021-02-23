@@ -103,12 +103,30 @@ class DragAndDrop {
       // Style
       this._toggleBackground(event.target, "leave")
 
+      // Specific callback for image
+      this._fetchImage(event.target, dragged)
+
       // Built page
       const mainDropZone = PageBuilder(store)
       
       // Save modified page
       this.store.commit("saveModifiedPage", mainDropZone)
     }
+  }
+
+  async _fetchImage(parent, image) {
+    // Get source if any
+    const source = store.getters.contentConfiguration.source
+
+    // Get dimensions
+    const width = parent.getBoundingClientRect().width
+    const height = source ? 'auto' : '75px'
+
+    // Fetch image
+    image.src = await source ?? `https://via.placeholder.com/${Math.floor(width)}`
+
+    // Set height
+    image.style.height = height
   }
 }
 
