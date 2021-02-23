@@ -37,6 +37,10 @@ export default {
         { name: "font-colour", configName: "fontColour" },
         { name: "text-align", configName: "textAlign" },
       ],
+      paragraph: [
+        { name: "font-colour", configName: "fontColour" },
+        { name: "text-align", configName: "textAlign" },
+      ],
       division: [
         { name: "layout-mode", configName: "layoutMode"},
       ],
