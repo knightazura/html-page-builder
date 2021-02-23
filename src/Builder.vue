@@ -36,6 +36,7 @@ export default {
     ElementConfigurator,
     DropZone,
     "heading": defineAsyncComponent(() => import('./components/content/Heading.vue')),
+    "paragraph": defineAsyncComponent(() => import('./components/content/Paragraph.vue')),
     "division": defineAsyncComponent(() => import('./components/container/Division.vue')),
   },
 
@@ -43,6 +44,7 @@ export default {
     return {
       listElement: [
         "heading",
+        "paragraph",
         "division",
       ]
     }
