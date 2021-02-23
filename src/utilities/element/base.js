@@ -7,6 +7,7 @@ import buildRemoveButton from '../element-remover'
 class BaseElement {
   constructor(elementType) {
     this.store = store
+    this.element = null
     this.elementType = elementType
   }
 

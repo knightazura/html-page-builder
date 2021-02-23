@@ -25,8 +25,14 @@ export default {
     "text-align": defineAsyncComponent(() => import('./Content/TextAlign.vue')),
     "heading-level": defineAsyncComponent(() => import('./Content/HeadingLevel.vue')),
 
+    // special for image element
+    "image-source": defineAsyncComponent(() => import('./Content/ImageSource.vue')),
+
     // Container element components
     "layout-mode": defineAsyncComponent(() => import('./Container/LayoutMode.vue')),
+
+    // Generic configuration
+    "border": defineAsyncComponent(() => import('./Border.vue')),
   },
 
   setup() {
@@ -40,6 +46,12 @@ export default {
       paragraph: [
         { name: "font-colour", configName: "fontColour" },
         { name: "text-align", configName: "textAlign" },
+      ],
+      image: [
+        { name: "image-source", configName: "source" },
+        { name: "border", configName: ["borderWeight", "borderType"]},
+        // { name: "border-radius", configName: "borderRadius" },
+        // { name: "circle", configName: "circle" },
       ],
       division: [
         { name: "layout-mode", configName: "layoutMode"},
