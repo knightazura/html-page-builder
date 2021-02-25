@@ -1,6 +1,9 @@
 "use strict"
 
+import { createApp } from 'vue'
 import BaseElement from '../base'
+import ImageElement from '@/created-elements/ImageElement.vue'
+import uuid from '../../uuid'
 
 class Image extends BaseElement {
   // This configuration properties from element-configurator.module
@@ -21,17 +24,22 @@ class Image extends BaseElement {
 
   // Methods
   build() {
-    // Create parent element
-    let image = document.createElement("img")
-
-    // Set the element to global
-    this.element = image
+    // Create wrapper element.
+    // Image itself will created with Vue component
+    let image = document.createElement("div")
 
     // Styles
     this._paintStyle(image)
 
+    // Set ID to wrapper,
+    // that later vue instance mounted on
+    image.setAttribute("id", `element-${uuid(6)}`)
+
     // Add remove button
     image.appendChild(this.removeButton(image))
+
+    // Create and set Vue instance
+    this._setVueInstance()
 
     return image
   }
@@ -53,6 +61,17 @@ class Image extends BaseElement {
     image.classList.add(...styles)
     image.classList.add("relative")
     image.classList.remove("undefined")
+  }
+
+  _setVueInstance() {
+    // Init.
+    const vImage = createApp(ImageElement)
+
+    // Use global store
+    vImage.use(this.store)
+
+    // Commit instance to store
+    this.store.commit("setVueElementInstance", vImage)
   }
 }
 

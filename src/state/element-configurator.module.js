@@ -12,12 +12,14 @@ const elementConfigurator = {
         // generic
         borderWeight: 'border',
         borderType: 'solid',
-        borderRadius: 'rounded',
+        borderRadius: 'rounded-none',
+        boxShadow: 'shadow-none',
       },
       containerElement: {
         layoutMode: '1-1-1'
       }
-    }
+    },
+    vueElementInstance: null
   },
   
   getters: {
@@ -29,12 +31,35 @@ const elementConfigurator = {
     },
     containerConfiguration(state) {
       return state.activeConfiguration.containerElement
+    },
+    vueElementInstance(state) {
+      return state.vueElementInstance
+    },
+
+    // Elements specific
+    imageConfiguration(state) {
+      const {
+        source,
+        circle,
+        borderRadius,
+        boxShadow
+      } = state.activeConfiguration.contentElement
+
+      return {
+        source,
+        circle,
+        borderRadius,
+        boxShadow
+      }
     }
   },
 
   mutations: {
     selectElement(state, element) {
       state.selectedElement = element
+    },
+    setVueElementInstance(state, vueInstance) {
+      state.vueElementInstance = vueInstance
     },
     // Content element configurations
     setContentElement(state, { config, value }) {
