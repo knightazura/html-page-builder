@@ -103,8 +103,13 @@ class DragAndDrop {
       // Style
       this._toggleBackground(event.target, "leave")
 
-      // Specific callback for image
-      this._fetchImage(event.target, dragged)
+      // Specific for image
+      if (this.store.getters.selectedElement === "image") {
+        const vInstance = this.store.getters.vueElementInstance
+        const wrapperID = `#${dragged.getAttribute("id")}`
+
+        vInstance.mount(wrapperID)
+      }
 
       // Built page
       const mainDropZone = PageBuilder(store)
