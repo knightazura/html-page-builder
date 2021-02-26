@@ -26,25 +26,25 @@ class Image extends BaseElement {
   build() {
     // Create wrapper element.
     // Image itself will created with Vue component
-    let image = document.createElement("div")
+    let imageWrapper = document.createElement("div")
 
     // Styles
-    this._paintStyle(image)
+    this._paintStyle(imageWrapper)
 
     // Set ID to wrapper,
     // that later vue instance mounted on
-    image.setAttribute("id", `element-${uuid(6)}`)
+    imageWrapper.setAttribute("id", `element-${uuid(6)}`)
 
     // Add remove button
-    image.appendChild(this.removeButton(image))
+    imageWrapper.appendChild(this.removeButton(imageWrapper))
 
     // Create and set Vue instance
     this._setVueInstance()
 
-    return image
+    return imageWrapper
   }
 
-  _paintStyle(image) {
+  _paintStyle(imageWrapper) {
     let config = this.configuration
 
     // Styles
@@ -58,9 +58,9 @@ class Image extends BaseElement {
         }
       })
     
-    image.classList.add(...styles)
-    image.classList.add("relative")
-    image.classList.remove("undefined")
+    imageWrapper.classList.add(...styles)
+    imageWrapper.classList.add("relative")
+    imageWrapper.classList.remove("undefined")
   }
 
   _setVueInstance() {
