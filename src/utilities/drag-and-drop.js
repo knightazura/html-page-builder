@@ -47,9 +47,13 @@ class DragAndDrop {
       )
   }
 
-  dragStart(event) {
+  showConfiguration() {
     // Show configurator
     this.store.commit("selectElement", this.elementObject.name)
+  }
+
+  dragStart(event) {
+    this.showConfiguration()
 
     // Build the element
     const newElement = this.elementBuilder.build()

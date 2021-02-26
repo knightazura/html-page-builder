@@ -29,6 +29,7 @@ export default {
       dragLeave: evt => dnd.dragLeave(evt),
       dragEnd: evt => dnd.dragEnd(evt),
       drop: evt => dnd.drop(evt),
+      showConfigurator: () => dnd.showConfiguration(),
     }
   }
 }
