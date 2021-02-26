@@ -6,6 +6,9 @@ class Paragraph extends BaseElement {
   // This configuration properties from element-configurator.module
   _CONFIG_PROPS = ["fontColour", "textAlign"]
 
+  // Styles
+  _STYLES = ["p-3", "relative"]
+
   constructor() {
     super("content")
     this.configuration = this.elementConfig
@@ -39,8 +42,8 @@ class Paragraph extends BaseElement {
   _paintStyle(paragraph) {
     let config = this.configuration
 
-    // Styles
-    let styles = Object
+    // Styles from configuration
+    let configStyles = Object
       .keys(config)
       .map(prop => {
         if (this._CONFIG_PROPS.includes(prop)) {
@@ -50,8 +53,7 @@ class Paragraph extends BaseElement {
         }
       })
     
-    paragraph.classList.add(...styles)
-    paragraph.classList.add("relative")
+    paragraph.classList.add(...configStyles, ...this._STYLES)
     paragraph.classList.remove("undefined")
   }
 

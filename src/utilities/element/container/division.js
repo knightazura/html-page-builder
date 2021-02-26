@@ -54,7 +54,8 @@ class Division extends BaseElement {
     const dnd = new DragAndDrop()
     const layoutMode = this.configuration.layoutMode
     const childClasses = [
-      "modified-component", 
+      "modified-component",
+      "modified-component--child",
       "modified-component--marker", 
       "drop-zone"
     ]
