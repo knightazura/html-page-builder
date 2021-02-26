@@ -19,7 +19,8 @@ export default {
 
     return {
       dragStart: evt => dnd.dragStart(evt),
-      dragEnd: evt => dnd.dragEnd(evt)
+      dragEnd: evt => dnd.dragEnd(evt),
+      showConfigurator: () => dnd.showConfiguration(),
     }
   }
 }
