@@ -1,4 +1,5 @@
 <template>
+  <er-button></er-button>
   <span v-if="!loaded">Loading...</span>
   <img v-if="width > 1" @load="onLoad" :class="classes" :src="source" style="z-index: -1">
 </template>
@@ -6,8 +7,13 @@
 <script>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import ERButton from '@/components/ElementRemoverButton.vue'
 
 export default {
+  components: {
+    "er-button": ERButton
+  },
+
   setup() {
     const store = useStore()
     const loaded = ref(false)
