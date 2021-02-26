@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .modified-component {
-    @apply px-2 py-1 m-3;
+    @apply m-3;
+}
+
+.modified-component--child {
+    @apply flex justify-center py-3 text-gray-400 italic;
 }
 
 .modified-component--marker {

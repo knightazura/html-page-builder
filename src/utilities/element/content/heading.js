@@ -14,6 +14,9 @@ class Heading extends BaseElement {
   // This configuration properties from element-configurator.module
   _CONFIG_PROPS = ["fontColour", "textAlign", "headingLevel"]
 
+  // Styles
+  _STYLES = ["relative", "p-3", "font-bold"]
+
   constructor() {
     super("content")
     this.configuration = this.elementConfig
@@ -47,8 +50,8 @@ class Heading extends BaseElement {
   _paintStyle(heading) {
     let config = this.configuration
 
-    // Styles
-    let styles = Object
+    // Styles from configuration
+    let configStyles = Object
       .keys(config)
       .map(prop => {
         if (this._CONFIG_PROPS.includes(prop)) {
@@ -64,8 +67,7 @@ class Heading extends BaseElement {
         }
       })
     
-    heading.classList.add(...styles)
-    heading.classList.add("relative")
+    heading.classList.add(...configStyles, ...this._STYLES)
     heading.classList.remove("undefined")
   }
 
