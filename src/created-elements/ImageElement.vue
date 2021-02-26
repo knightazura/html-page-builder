@@ -1,6 +1,6 @@
 <template>
   <span v-if="!loaded">Loading...</span>
-  <img @load="onLoad" :class="classes" :src="config.source ?? `https://via.placeholder.com/${width}x75`">
+  <img v-if="width > 1" @load="onLoad" :class="classes" :src="source" style="z-index: -1">
 </template>
 
 <script>
@@ -14,11 +14,6 @@ export default {
 
     // Element configuration
     const config = computed(() => store.getters.imageConfiguration)
-    const classes = [
-      config.value.borderRadius,
-      config.value.boxShadow
-    ].join(' ')
-    const width = ref(1)
 
     // Methods
     const onLoad = () => loaded.value = true
@@ -26,13 +21,31 @@ export default {
     return {
       loaded,
       config,
-      classes,
-      width,
       onLoad
     }
   },
+  data() {
+    return {
+      classes: '',
+      source: 'https://via.placeholder.com/1x75',
+      width: 1,
+    }
+  },
   mounted() {
-    this.width = this.$el.parentNode.offsetWidth
+    // Get parent width
+    const width = this.$el.parentNode.offsetWidth
+
+    // Set configuration classes
+    this.classes = [
+      this.config.borderRadius,
+      this.config.boxShadow
+    ].join(' ')
+
+    // Set source following parent width or user setup
+    this.source = this.config.source ?? `https://via.placeholder.com/${width}x75`
+
+    // Set image element width equal with parent
+    this.width = width
   }
 }
 </script>
