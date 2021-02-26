@@ -23,5 +23,5 @@ h3.el-config--title {
 }
 
 .el-remover {
-    @apply absolute right-0 bg-red-600 rounded text-white text-xs p-2;
+    @apply absolute top-1 right-1 bg-red-500 opacity-30 rounded-full focus:outline-none hover:opacity-100 hover:bg-red-600 active:bg-red-700;
 }
