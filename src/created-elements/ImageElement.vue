@@ -1,13 +1,20 @@
 <template>
   <er-button></er-button>
   <span v-if="!loaded">Loading...</span>
-  <img v-if="width > 1" @load="onLoad" :class="classes" :src="source" style="z-index: -1">
+  <img v-if="width > 1"
+    :class="classes"
+    :src="source"
+    @load="onLoad"
+    @dragstart="dragStart"
+    @dragend="dragEnd">
 </template>
 
 <script>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import ERButton from '@/components/ElementRemoverButton.vue'
+import ImageElement from '@/utilities/element/content/image'
+import DragAndDrop from '@/utilities/drag-and-drop'
 
 export default {
   components: {
@@ -17,6 +24,7 @@ export default {
   setup() {
     const store = useStore()
     const loaded = ref(false)
+    const dnd = new DragAndDrop(ImageElement)
 
     // Element configuration
     const config = computed(() => store.getters.imageConfiguration)
@@ -27,9 +35,12 @@ export default {
     return {
       loaded,
       config,
-      onLoad
+      onLoad,
+      dragStart: evt => dnd.dragStart(evt),
+      dragEnd: evt => dnd.dragEnd(evt)
     }
   },
+
   data() {
     return {
       classes: '',
@@ -37,6 +48,7 @@ export default {
       width: 1,
     }
   },
+
   mounted() {
     // Get parent width
     const width = this.$el.parentNode.offsetWidth
