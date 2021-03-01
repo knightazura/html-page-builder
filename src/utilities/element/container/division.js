@@ -78,10 +78,6 @@ class Division extends BaseElement {
       ) {
         child.classList.add("col-span-2")
       }
-      // Special class: full span
-      if (totalChildren === 1) {
-        child.classList.add("col-span-3")
-      }
 
       // Add listeners
       child.addEventListener("dragover", dnd.dragOver)
@@ -100,6 +96,11 @@ class Division extends BaseElement {
 
   _paintStyle(division) {
     division.classList.add(...this._STYLES)
+    
+    // Change grid cols to 2 if half layout chosen
+    if (this.configuration.layoutMode === '1-1') {
+      division.classList.replace("grid-cols-3", "grid-cols-2")
+    }
   }
 
   _fillText(division, text) {
@@ -107,9 +108,7 @@ class Division extends BaseElement {
   }
 
   _countTotalChildren(layoutMode) {
-    if (layoutMode === '3') {
-      return 1
-    } else if (layoutMode === '1-2' || layoutMode === '2-1') {
+    if (layoutMode === '1-2' || layoutMode === '2-1' || layoutMode === '1-1') {
       return 2
     } else {
       return 3
