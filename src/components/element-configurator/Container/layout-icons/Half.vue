@@ -9,7 +9,16 @@
     <rect
       x="8.5"
       y="8.5"
-      width="127"
+      width="61"
+      height="39"
+      rx="1.5"
+      fill="#D3EAF6"
+      stroke="#8CBCD6"
+    />
+    <rect
+      x="74.5"
+      y="8.5"
+      width="61"
       height="39"
       rx="1.5"
       fill="#D3EAF6"

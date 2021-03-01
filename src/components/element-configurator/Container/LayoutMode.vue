@@ -22,7 +22,7 @@ import { useStore } from 'vuex';
 import OneOneOne from './layout-icons/OneOneOne.vue'
 import OneTwo from './layout-icons/OneTwo.vue'
 import TwoOne from './layout-icons/TwoOne.vue'
-import FullThree from './layout-icons/FullThree.vue'
+import Half from './layout-icons/Half.vue'
 
 
 export default {
@@ -30,7 +30,7 @@ export default {
     "one-one-one": OneOneOne,
     "one-two": OneTwo,
     "two-one": TwoOne,
-    "full-three": FullThree
+    "half": Half
   },
 
   props: {
@@ -46,7 +46,7 @@ export default {
       { name: "one-one-one", value: '1-1-1', active: true},
       { name: "one-two", value: '1-2', active: false},
       { name: "two-one", value: '2-1', active: false},
-      { name: "full-three", value: '3', active: false},
+      { name: "half", value: '1-1', active: false},
     ]);
 
     // Methods
