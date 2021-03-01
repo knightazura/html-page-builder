@@ -36,6 +36,9 @@ const store = createStore({
     setDraggedElement (state, element) {
       state.dragged = element
     },
+    removeDraggedElement (state) {
+      state.dragged = null
+    },
     buildRealPage(state, builtPage) {
       state.pageBuilt = builtPage
     },

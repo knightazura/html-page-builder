@@ -66,6 +66,9 @@ class DragAndDrop {
   }
 
   dragEnd(event) {
+    // Remove dragged element
+    this.store.commit("removeDraggedElement")
+
     // reset the transparency
     event.target.style.opacity = ""
   }
@@ -120,6 +123,9 @@ class DragAndDrop {
       
       // Save modified page
       this.store.commit("saveModifiedPage", mainDropZone)
+
+      // Remove dragged element
+      this.store.commit("removeDraggedElement")
     }
   }
 
