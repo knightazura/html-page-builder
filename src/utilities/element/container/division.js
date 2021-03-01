@@ -34,9 +34,6 @@ class Division extends BaseElement {
     // Styles
     this._paintStyle(division)
 
-    // Setup sortable
-    Sortable.create(division, { animation: 150 })
-
     // Add children
     this
       ._buildChildElement()
